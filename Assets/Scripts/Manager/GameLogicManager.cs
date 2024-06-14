@@ -11,7 +11,7 @@ public class Player
     }
 
     public int UserId { get; private set; }
-    public string Name { get; private set; }
+    public string Name { get;  set; }
     public int Level { get; set; }
 }
 
@@ -22,6 +22,7 @@ public class GameLogicManager
 
     private static Dictionary<int, Player> _playerDic = new Dictionary<int, Player>();
     private Action<int, int> _levelUpCallback;
+    private Action<int, string> _nameChangeCallback;
 
     public static GameLogicManager Inst
     {
@@ -62,6 +63,59 @@ public class GameLogicManager
             var curPlayer = _playerDic[reqUserId];
             curPlayer.Level++;
             _levelUpCallback.Invoke(reqUserId, curPlayer.Level);
+        }
+    }
+
+    public void RequestLevelUpDouble()
+    {
+        int reqUserId = _curSelectedPlayerId;
+
+        if (_playerDic.ContainsKey(reqUserId))
+        {
+            var curPlayer = _playerDic[reqUserId];
+            curPlayer.Level += 2;
+            _levelUpCallback.Invoke(reqUserId, curPlayer.Level);
+        }
+    }
+
+    public void RegisterNameChangeCallback(Action<int, string> namechangeCallback)
+    {
+        _nameChangeCallback += namechangeCallback;
+    }
+
+    public void UnRegisterNameChangeCallback(Action<int, string> namechangeCallback)
+    {
+        _nameChangeCallback -= namechangeCallback;
+    }
+
+    public void RequestRandomName()
+    { 
+        int requjUserId = _curSelectedPlayerId;
+
+        if(_playerDic.ContainsKey(requjUserId))
+        {
+            var curPlayer = _playerDic[requjUserId];
+            int RandomNum = new Random().Next(0, 4);
+            string RandomName = "";
+            
+            switch(RandomNum)
+            {
+                case 0:
+                    RandomName = "양파쿵야";
+                    break;
+                case 1:
+                    RandomName = "버섯쿵야";
+                    break;
+                case 2:
+                    RandomName = "샐러리쿵야";
+                    break;
+                case 3:
+                    RandomName = "계란쿵야";
+                    break;   
+            }
+
+            curPlayer.Name = RandomName; 
+            _nameChangeCallback.Invoke(requjUserId, curPlayer.Name);
         }
     }
 
