@@ -1,14 +1,15 @@
 using System.ComponentModel;
+using ViewModel;
 
-public class TempProfileViewModel
+public class TempProfileViewModel : ViewModelBase
 {
     private int _userId;
     private string _name;
     private int _level;
 
     public int UserId
-    { 
-        get { return _userId; } 
+    {
+        get { return _userId; }
         set { _userId = value; }
     }
 
@@ -27,7 +28,7 @@ public class TempProfileViewModel
     public int Level
     {
         get { return _level; }
-        set 
+        set
         {
             if (_level == value) return;
 
@@ -35,15 +36,14 @@ public class TempProfileViewModel
             OnPropertyChanged(nameof(Level));
         }
     }
-
-    #region Property
-
-    public PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    #endregion
 }
+//    #region Property
+
+//    public PropertyChangedEventHandler PropertyChanged;
+
+//    protected void OnPropertyChanged(string propertyName)
+//    {
+//        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+//    }
+
+//    #endregion
